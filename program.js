@@ -1,18 +1,7 @@
-var http = require('http');
-var through = require('through2');
+var request = require('request');
 
-var server = http.createServer(function(req, res) {
-    if (req.method != 'POST') return res.end('send me a POST\n');
 
-    var tr = through(function(chunk, encoding, next){
-        this.push(chunk.toString().toUpperCase());
-        next();
-    });
-
-    req.pipe(tr).pipe(res)
-});
-
-server.listen(process.argv[2]);
+process.stdin.pipe(request.post('http://localhost:8099/')).pipe(process.stdout);
 
 //var concat = require('concat-stream');
 //
